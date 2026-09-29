@@ -12,8 +12,8 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tarefas")
-public class Tarefa {
+@Table(name = "atividade")
+public class Atividade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,17 +27,17 @@ public class Tarefa {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private StatusTarefa status;
+    private StatusAtividade status;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
 
     private LocalDateTime dataConclusao;
 
-    protected Tarefa() {
+    protected Atividade() {
     }
 
-    public Tarefa(String titulo, String descricao, StatusTarefa status) {
+    public Atividade(String titulo, String descricao, StatusAtividade status) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.status = status;
@@ -49,7 +49,7 @@ public class Tarefa {
             dataCriacao = LocalDateTime.now();
         }
         if (status == null) {
-            status = StatusTarefa.PENDENTE;
+            status = StatusAtividade.PENDENTE;
         }
     }
 
@@ -73,11 +73,11 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public StatusTarefa getStatus() {
+    public StatusAtividade getStatus() {
         return status;
     }
 
-    public void setStatus(StatusTarefa status) {
+    public void setStatus(StatusAtividade status) {
         this.status = status;
     }
 

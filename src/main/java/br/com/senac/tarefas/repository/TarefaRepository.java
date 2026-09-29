@@ -4,10 +4,10 @@ import br.com.senac.tarefas.model.StatusTarefa;
 import br.com.senac.tarefas.model.Tarefa;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
+public interface AtividadeRepository extends JpaRepository<Atividade, Long> {
 
-    boolean existsByTituloIgnoreCaseAndStatusNot(String titulo, StatusTarefa status);
+    boolean existsByTituloIgnoreCaseAndStatusNot(String titulo, StatusAtividade status);
 
     boolean existsByTituloIgnoreCaseAndStatusNotAndIdNot(
-            String titulo, StatusTarefa status, Long id);
+            String titulo, StatusAtividade status, Long id);
 }

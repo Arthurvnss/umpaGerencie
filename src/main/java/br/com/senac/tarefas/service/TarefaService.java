@@ -15,72 +15,72 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class TarefaService {
+public class AtividadeService {
 
-    private final TarefaRepository tarefaRepository;
+    private final AtividadeRepository atividadeRepository;
 
-    public TarefaService(TarefaRepository tarefaRepository) {
-        this.tarefaRepository = tarefaRepository;
+    public AtividadeService(AtividadeRepository atividadeRepository) {
+        this.atividadeRepository = atividadeRepository;
     }
 
-    public TarefaResponse criar(CriarTarefaRequest request) {
-        if (tarefaRepository.existsByTituloIgnoreCaseAndStatusNot(
-                request.titulo().trim(), StatusTarefa.CONCLUIDA)) {
-            throw new RegraDeNegocioException("Já existe uma tarefa ativa com esse título");
+    public atividadeResponse criar(CriarAtividadeRequest request) {
+        if (atividadeRepository.existsByTituloIgnoreCaseAndStatusNot(
+                request.titulo().trim(), StatusAtividade.CONCLUIDA)) {
+            throw new RegraDeNegocioException("Já existe uma atividade ativa com esse título");
         }
 
-        Tarefa tarefa = new Tarefa(
-                request.titulo().trim(), request.descricao(), StatusTarefa.PENDENTE);
-        return TarefaResponse.de(tarefaRepository.save(tarefa));
+        Atividade atividade = new Atividade(
+                request.titulo().trim(), request.descricao(), StatusAtividade.PENDENTE);
+        return AtividadeResponse.de(atividadeRepository.save(atividade));
     }
 
     @Transactional(readOnly = true)
-    public List<TarefaResponse> listar() {
-        return tarefaRepository.findAll().stream().map(TarefaResponse::de).toList();
+    public List<AtividadeResponse> listar() {
+        return atividadeRepository.findAll().stream().map(AtividadeResponse::de).toList();
     }
 
     @Transactional(readOnly = true)
-    public TarefaResponse buscarPorId(Long id) {
-        return TarefaResponse.de(buscarEntidade(id));
+    public AtividadeResponse buscarPorId(Long id) {
+        return AtividadeResponse.de(buscarEntidade(id));
     }
 
-    public TarefaResponse atualizar(Long id, AtualizarTarefaRequest request) {
-        Tarefa tarefa = buscarEntidade(id);
-        StatusTarefa statusAnterior = tarefa.getStatus();
+    public AtividadeResponse atualizar(Long id, AtualizarAtividadeRequest request) {
+        Atividade atividade = buscarEntidade(id);
+        StatusAtividade statusAnterior = atividade.getStatus();
 
-        if (statusAnterior == StatusTarefa.PENDENTE
-                && request.status() == StatusTarefa.CONCLUIDA) {
+        if (statusAnterior == StatusAtividade.PENDENTE
+                && request.status() == StatusAtividade.CONCLUIDA) {
             throw new RegraDeNegocioException(
-                    "Uma tarefa pendente deve passar por EM_ANDAMENTO antes de ser concluída");
+                    "Uma atividade pendente deve passar por EM_ANDAMENTO antes de ser concluída");
         }
 
         String titulo = request.titulo().trim();
-        if (request.status() != StatusTarefa.CONCLUIDA
-                && tarefaRepository.existsByTituloIgnoreCaseAndStatusNotAndIdNot(
-                        titulo, StatusTarefa.CONCLUIDA, id)) {
-            throw new RegraDeNegocioException("Já existe uma tarefa ativa com esse título");
+        if (request.status() != StatusAtividade.CONCLUIDA
+                && atividadeRepository.existsByTituloIgnoreCaseAndStatusNotAndIdNot(
+                        titulo, StatusAtividade.CONCLUIDA, id)) {
+            throw new RegraDeNegocioException("Já existe uma atividade ativa com esse título");
         }
 
-        tarefa.setTitulo(titulo);
-        tarefa.setDescricao(request.descricao());
-        tarefa.setStatus(request.status());
-        tarefa.setDataConclusao(request.status() == StatusTarefa.CONCLUIDA
-                ? tarefa.getDataConclusao() == null ? LocalDateTime.now() : tarefa.getDataConclusao()
+        atividade.setTitulo(titulo);
+        atividade.setDescricao(request.descricao());
+        atividade.setStatus(request.status());
+        atividade.setDataConclusao(request.status() == StatusAtividade.CONCLUIDA
+                ? atividade.getDataConclusao() == null ? LocalDateTime.now() : atividade.getDataConclusao()
                 : null);
-        return TarefaResponse.de(tarefaRepository.save(tarefa));
+        return AtividadeResponse.de(AtividadeRepository.save(atividade));
     }
 
     public void excluir(Long id) {
-        Tarefa tarefa = buscarEntidade(id);
-        if (tarefa.getStatus() == StatusTarefa.CONCLUIDA) {
-            throw new RegraDeNegocioException("Não é permitido excluir uma tarefa concluída");
+        Atividade atividade = buscarEntidade(id);
+        if (atividade.getStatus() == StatusAtividade.CONCLUIDA) {
+            throw new RegraDeNegocioException("Não é permitido excluir uma atividade concluída");
         }
-        tarefaRepository.delete(tarefa);
+        atividadeRepository.delete(atividade);
     }
 
-    private Tarefa buscarEntidade(Long id) {
-        return tarefaRepository.findById(id)
+    private Atividade buscarEntidade(Long id) {
+        return atividadeRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException(
-                        "Tarefa não encontrada com id " + id));
+                        "Atividade não encontrada com id " + id));
     }
 }

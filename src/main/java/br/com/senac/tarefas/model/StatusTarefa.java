@@ -1,6 +1,6 @@
 package br.com.senac.tarefas.model;
 
-public enum StatusTarefa {
+public enum Atividade {
     PENDENTE,
     EM_ANDAMENTO,
     CONCLUIDA

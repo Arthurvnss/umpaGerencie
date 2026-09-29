@@ -16,14 +16,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class TarefaControllerIntegrationTest {
+class AtividadeControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void deveCriarTarefaEDevolverJsonComStatus201() throws Exception {
-        mockMvc.perform(post("/api/tarefas")
+    void deveCriarAtividadeEDevolverJsonComStatus201() throws Exception {
+        mockMvc.perform(post("/api/atividades")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -40,7 +40,7 @@ class TarefaControllerIntegrationTest {
 
     @Test
     void deveRejeitarTituloCurtoComStatus400() throws Exception {
-        mockMvc.perform(post("/api/tarefas")
+        mockMvc.perform(post("/api/atividades")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -53,8 +53,8 @@ class TarefaControllerIntegrationTest {
     }
 
     @Test
-    void deveRetornar404AoBuscarTarefaInexistente() throws Exception {
-        mockMvc.perform(get("/api/tarefas/99999"))
+    void deveRetornar404AoBuscarAtividadeInexistente() throws Exception {
+        mockMvc.perform(get("/api/atividades/99999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value("NOT_FOUND"));
     }

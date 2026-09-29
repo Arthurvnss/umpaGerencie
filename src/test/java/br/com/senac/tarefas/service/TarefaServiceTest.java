@@ -24,41 +24,41 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class TarefaServiceTest {
+class AtividadeServiceTest {
 
     @Mock
-    private TarefaRepository tarefaRepository;
+    private AtividadeRepository atividadeRepository;
 
     @InjectMocks
-    private TarefaService tarefaService;
+    private AtividadeService atividadeService;
 
     @Test
-    void deveCriarTarefaPendente() {
-        when(tarefaRepository.existsByTituloIgnoreCaseAndStatusNot(
-                "Implementar endpoint", StatusTarefa.CONCLUIDA)).thenReturn(false);
-        when(tarefaRepository.save(any(Tarefa.class)))
+    void deveCriarAtividadePendente() {
+        when(atividadeRepository.existsByTituloIgnoreCaseAndStatusNot(
+                "Implementar endpoint", StatusAtividade.CONCLUIDA)).thenReturn(false);
+        when(atividadeRepository.save(any(Atividade.class)))
                 .thenAnswer(invocacao -> invocacao.getArgument(0));
 
-        TarefaResponse resposta = tarefaService.criar(
-                new CriarTarefaRequest("Implementar endpoint", "API de tarefas"));
+        AtividadeResponse resposta = atividadeService.criar(
+                new CriarAtividadeRequest("Implementar endpoint", "API de atividades"));
 
         assertEquals("Implementar endpoint", resposta.titulo());
-        assertEquals(StatusTarefa.PENDENTE, resposta.status());
-        verify(tarefaRepository).save(any(Tarefa.class));
+        assertEquals(StatusAtividade.PENDENTE, resposta.status());
+        verify(atividadeRepository).save(any(Atividade.class));
     }
 
     @Test
-    void deveLancarExcecaoAoBuscarTarefaInexistente() {
-        when(tarefaRepository.findById(42L)).thenReturn(Optional.empty());
+    void deveLancarExcecaoAoBuscarAtividadeInexistente() {
+        when(atividadeRepository.findById(42L)).thenReturn(Optional.empty());
 
         assertThrows(RecursoNaoEncontradoException.class,
-                () -> tarefaService.buscarPorId(42L));
-        verify(tarefaRepository).findById(42L);
+                () -> atividadeService.buscarPorId(42L));
+        verify(atividadeRepository).findById(42L);
     }
 
         @Test
-        void deveBuscarTarefaPorId() {
-                Tarefa tarefa = new Tarefa("Consultar tarefa", "Detalhes", StatusTarefa.PENDENTE);
+        void deveBuscarAtividadePorId() {
+               Atividade atividade = new Atividade("Consultar atividade", "Detalhes", StatusTarefa.PENDENTE);
                 when(tarefaRepository.findById(42L)).thenReturn(Optional.of(tarefa));
 
                 TarefaResponse resposta = tarefaService.buscarPorId(42L);
