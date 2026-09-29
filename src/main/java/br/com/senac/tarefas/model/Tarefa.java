@@ -1,4 +1,4 @@
-package br.com.senac.tarefas.model;
+package br.com.senac.atividades.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,9 +1,9 @@
-package br.com.senac.tarefas.controller;
+package br.com.senac.atividades.controller;
 
-import br.com.senac.tarefas.dto.AtualizarTarefaRequest;
-import br.com.senac.tarefas.dto.CriarTarefaRequest;
-import br.com.senac.tarefas.dto.TarefaResponse;
-import br.com.senac.tarefas.service.TarefaService;
+import br.com.senac.atividades.dto.AtualizarAtividadesRequest;
+import br.com.senac.atividades.dto.CriarAtividadesRequest;
+import br.com.senac.atividades.dto.AtividadesResponse;
+import br.com.senac.atividades.service.AtividadesService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -19,44 +19,44 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/tarefas")
-public class TarefaController {
+@RequestMapping("/api/atividades")
+public class AtividadesController {
 
-    private final TarefaService tarefaService;
+    private final AtividadesService atividadesService;
 
-    public TarefaController(TarefaService tarefaService) {
-        this.tarefaService = tarefaService;
+    public AtividadesController(AtividadesService atividadesService) {
+        this.atividadesService = atividadesService;
     }
 
     @PostMapping
-    public ResponseEntity<TarefaResponse> criar(@Valid @RequestBody CriarTarefaRequest request) {
-        TarefaResponse tarefa = tarefaService.criar(request);
+    public ResponseEntity<AtividadesResponse> criar(@Valid @RequestBody CriarAtividadesRequest request) {
+        AtividadesResponse atividades = atividadesService.criar(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(tarefa.id())
+                .buildAndExpand(atividades.id())
                 .toUri();
-        return ResponseEntity.created(location).body(tarefa);
+        return ResponseEntity.created(location).body(atividades);
     }
 
     @GetMapping
-    public List<TarefaResponse> listar() {
-        return tarefaService.listar();
+    public List<AtividadesResponse> listar() {
+        return atividadesService.listar();
     }
 
     @GetMapping("/{id}")
-    public TarefaResponse buscarPorId(@PathVariable Long id) {
-        return tarefaService.buscarPorId(id);
+    public AtividadesResponse buscarPorId(@PathVariable Long id) {
+        return atividadesService.buscarPorId(id);
     }
 
     @PutMapping("/{id}")
-    public TarefaResponse atualizar(
-            @PathVariable Long id, @Valid @RequestBody AtualizarTarefaRequest request) {
-        return tarefaService.atualizar(id, request);
+    public AtividadesResponse atualizar(
+            @PathVariable Long id, @Valid @RequestBody AtualizarAtividadesRequest request) {
+        return atividadesService.atualizar(id, request);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        tarefaService.excluir(id);
+        atividadesService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

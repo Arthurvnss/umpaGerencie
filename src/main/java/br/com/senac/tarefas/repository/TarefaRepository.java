@@ -1,7 +1,7 @@
-package br.com.senac.tarefas.repository;
+package br.com.senac.atividades.repository;
 
-import br.com.senac.tarefas.model.StatusTarefa;
-import br.com.senac.tarefas.model.Tarefa;
+import br.com.senac.atividades.model.StatusAtividades;
+import br.com.senac.atividades.model.Atividades;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AtividadeRepository extends JpaRepository<Atividade, Long> {

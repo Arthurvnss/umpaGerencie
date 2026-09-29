@@ -1,13 +1,13 @@
-package br.com.senac.tarefas.service;
+package br.com.senac.atividades.service;
 
-import br.com.senac.tarefas.dto.AtualizarTarefaRequest;
-import br.com.senac.tarefas.dto.CriarTarefaRequest;
-import br.com.senac.tarefas.dto.TarefaResponse;
-import br.com.senac.tarefas.exception.RecursoNaoEncontradoException;
-import br.com.senac.tarefas.exception.RegraDeNegocioException;
-import br.com.senac.tarefas.model.StatusTarefa;
-import br.com.senac.tarefas.model.Tarefa;
-import br.com.senac.tarefas.repository.TarefaRepository;
+import br.com.senac.atividades.dto.AtualizarAtividadesRequest;
+import br.com.senac.atividades.dto.CriarAtividadesRequest;
+import br.com.senac.atividades.dto.AtividadesResponse;
+import br.com.senac.atividades.exception.RecursoNaoEncontradoException;
+import br.com.senac.atividades.exception.RegraDeNegocioException;
+import br.com.senac.atividades.model.StatusAtividades;
+import br.com.senac.atividades.model.Atividades;
+import br.com.senac.atividades.repository.AtividadesRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,60 +58,60 @@ class AtividadeServiceTest {
 
         @Test
         void deveBuscarAtividadePorId() {
-               Atividade atividade = new Atividade("Consultar atividade", "Detalhes", StatusTarefa.PENDENTE);
-                when(tarefaRepository.findById(42L)).thenReturn(Optional.of(tarefa));
+               Atividade atividade = new Atividade("Consultar atividade", "Detalhes", StatusAtividade.PENDENTE);
+                when(atividadeRepository.findById(42L)).thenReturn(Optional.of(atividade));
 
-                TarefaResponse resposta = tarefaService.buscarPorId(42L);
+                AtividadeResponse resposta = atividadeService.buscarPorId(42L);
 
-                assertEquals("Consultar tarefa", resposta.titulo());
-                assertEquals(StatusTarefa.PENDENTE, resposta.status());
-                verify(tarefaRepository).findById(42L);
+                assertEquals("Consultar atividade", resposta.titulo());
+                assertEquals(StatusAtividade.PENDENTE, resposta.status());
+                verify(atividadeRepository).findById(42L);
         }
 
     @Test
-    void deveAtualizarTarefaERegistrarDataConclusao() {
-        Tarefa tarefa = new Tarefa("Revisar documentação", null, StatusTarefa.EM_ANDAMENTO);
-        when(tarefaRepository.findById(7L)).thenReturn(Optional.of(tarefa));
-        when(tarefaRepository.save(any(Tarefa.class)))
+    void deveAtualizarAtividadeERegistrarDataConclusao() {
+        Atividade atividade = new Atividade("Revisar documentação", null, StatusAtividade.EM_ANDAMENTO);
+        when(atividadeRepository.findById(7L)).thenReturn(Optional.of(atividade));
+        when(atividadeRepository.save(any(Atividade.class)))
                 .thenAnswer(invocacao -> invocacao.getArgument(0));
 
-        TarefaResponse resposta = tarefaService.atualizar(7L,
-                new AtualizarTarefaRequest("Revisar documentação final", "Revisão concluída",
-                        StatusTarefa.CONCLUIDA));
+        AtividadeResponse resposta = atividadeService.atualizar(7L,
+                new AtualizarAtividadeRequest("Revisar documentação final", "Revisão concluída",
+                        StatusAtividade.CONCLUIDA));
 
-        assertEquals(StatusTarefa.CONCLUIDA, resposta.status());
+        assertEquals(StatusAtividade.CONCLUIDA, resposta.status());
         assertNotNull(resposta.dataConclusao());
-        verify(tarefaRepository).save(tarefa);
+        verify(atividadeRepository).save(atividade);
     }
 
     @Test
-    void naoDevePermitirConcluirTarefaPendenteDiretamente() {
-        Tarefa tarefa = new Tarefa("Revisar documentação", null, StatusTarefa.PENDENTE);
-        when(tarefaRepository.findById(7L)).thenReturn(Optional.of(tarefa));
+    void naoDevePermitirConcluirAtividadePendenteDiretamente() {
+        Atividade atividade = new Atividade("Revisar documentação", null, StatusAtividade.PENDENTE);
+        when(atividadeRepository.findById(7L)).thenReturn(Optional.of(atividade));
 
         assertThrows(RegraDeNegocioException.class,
-                () -> tarefaService.atualizar(7L,
+                () -> atividadeService.atualizar(7L,
                         new AtualizarTarefaRequest("Revisar documentação", null,
-                                StatusTarefa.CONCLUIDA)));
-        verify(tarefaRepository, never()).save(any(Tarefa.class));
+                                StatusAtividade.CONCLUIDA)));
+        verify(atividadeRepository, never()).save(any(Atividade.class));
     }
 
     @Test
-    void naoDeveExcluirTarefaConcluida() {
-        Tarefa tarefa = new Tarefa("Revisar documentação", null, StatusTarefa.CONCLUIDA);
-        when(tarefaRepository.findById(7L)).thenReturn(Optional.of(tarefa));
+    void naoDeveExcluirAtividadeConcluida() {
+        Atividade atividade = new Atividade("Revisar documentação", null, StatusAtividade.CONCLUIDA);
+        when(atividadeRepository.findById(7L)).thenReturn(Optional.of(atividade));
 
-        assertThrows(RegraDeNegocioException.class, () -> tarefaService.excluir(7L));
-        verify(tarefaRepository, never()).delete(any(Tarefa.class));
+        assertThrows(RegraDeNegocioException.class, () -> atividadeService.excluir(7L));
+        verify(atividadeRepository, never()).delete(any(Atividade.class));
     }
 
     @Test
     void naoDeveCriarTituloDuplicadoAtivo() {
-        when(tarefaRepository.existsByTituloIgnoreCaseAndStatusNot(
-                "Implementar endpoint", StatusTarefa.CONCLUIDA)).thenReturn(true);
+        when(atividadeRepository.existsByTituloIgnoreCaseAndStatusNot(
+                "Implementar endpoint", StatusAtividade.CONCLUIDA)).thenReturn(true);
 
         assertThrows(RegraDeNegocioException.class,
-                () -> tarefaService.criar(new CriarTarefaRequest("Implementar endpoint", null)));
-        verify(tarefaRepository, never()).save(any(Tarefa.class));
+                () -> atividadeService.criar(new CriarAtividadeRequest("Implementar endpoint", null)));
+        verify(atividadeRepository, never()).save(any(Atividade.class));
     }
 }

@@ -1,6 +1,6 @@
-package br.com.senac.tarefas.dto;
+package br.com.senac.atividades.dto;
 
-import br.com.senac.tarefas.model.StatusTarefa;
+import br.com.senac.atividades.model.StatusAtividades;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,5 +14,5 @@ public record AtualizarAtividadeRequest(
         String descricao,
 
         @NotNull(message = "O status é obrigatório")
-        StatusTarefa status) {
+        StatusAtividades status) {
 }

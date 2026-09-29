@@ -1,14 +1,14 @@
-package br.com.senac.tarefas.dto;
+package br.com.senac.atividades.dto;
 
-import br.com.senac.tarefas.model.StatusTarefa;
-import br.com.senac.tarefas.model.Tarefa;
+import br.com.senac.atividades.model.StatusAtividades;
+import br.com.senac.atividades.model.Atividades;
 import java.time.LocalDateTime;
 
 public record AtividadeResponse(
         Long id,
         String titulo,
         String descricao,
-        StatusTarefa status,
+        StatusAtividades status,
         LocalDateTime dataCriacao,
         LocalDateTime dataConclusao) {
 

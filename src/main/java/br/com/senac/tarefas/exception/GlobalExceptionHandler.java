@@ -1,4 +1,4 @@
-package br.com.senac.tarefas.exception;
+package br.com.senac.atividades.exception;
 
 import java.util.Map;
 import java.util.stream.Collectors;

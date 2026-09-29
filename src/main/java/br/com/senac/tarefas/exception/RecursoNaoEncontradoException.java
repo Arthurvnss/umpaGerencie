@@ -1,4 +1,4 @@
-package br.com.senac.tarefas.exception;
+package br.com.senac.atividades.exception;
 
 public class RecursoNaoEncontradoException extends RuntimeException {
 

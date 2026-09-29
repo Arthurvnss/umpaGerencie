@@ -1,13 +1,13 @@
-package br.com.senac.tarefas.service;
+package br.com.senac.atividades.service;
 
-import br.com.senac.tarefas.dto.AtualizarTarefaRequest;
-import br.com.senac.tarefas.dto.CriarTarefaRequest;
-import br.com.senac.tarefas.dto.TarefaResponse;
-import br.com.senac.tarefas.exception.RecursoNaoEncontradoException;
-import br.com.senac.tarefas.exception.RegraDeNegocioException;
-import br.com.senac.tarefas.model.StatusTarefa;
-import br.com.senac.tarefas.model.Tarefa;
-import br.com.senac.tarefas.repository.TarefaRepository;
+import br.com.senac.atividades.dto.AtualizarAtividadesRequest;
+import br.com.senac.atividades.dto.CriarAtividadesRequest;
+import br.com.senac.atividades.dto.AtividadesResponse;
+import br.com.senac.atividades.exception.RecursoNaoEncontradoException;
+import br.com.senac.atividades.exception.RegraDeNegocioException;
+import br.com.senac.atividades.model.StatusAtividades;
+import br.com.senac.atividades.model.Atividades;
+import br.com.senac.atividades.repository.AtividadesRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;

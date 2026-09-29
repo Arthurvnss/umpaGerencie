@@ -1,4 +1,4 @@
-package br.com.senac.tarefas.model;
+package br.com.senac.atividades.model;
 
 public enum Atividade {
     PENDENTE,

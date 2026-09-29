@@ -1,4 +1,4 @@
-package br.com.senac.tarefas.controller;
+package br.com.senac.atividades.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

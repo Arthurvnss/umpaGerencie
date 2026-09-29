@@ -1,4 +1,4 @@
-package br.com.senac.tarefas;
+package br.com.senac.atividades;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
